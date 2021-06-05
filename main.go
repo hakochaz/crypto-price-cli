@@ -15,7 +15,9 @@ limitations under the License.
 */
 package main
 
-import "github.com/hakochaz/crypto-price-cli/cmd"
+import (
+	"github.com/hakochaz/crypto-price-cli/cmd"
+)
 
 func main() {
 	cmd.Execute()
