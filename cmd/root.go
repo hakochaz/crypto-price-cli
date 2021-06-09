@@ -16,8 +16,3 @@ var rootCmd = &cobra.Command{
 func Execute() {
 	cobra.CheckErr(rootCmd.Execute())
 }
-
-func init() {
-	priceCmd.PersistentFlags().String("coin", "", "The coin you wish to get the price")
-	priceCmd.PersistentFlags().String("vc", "", "The currency to compare to")
-}

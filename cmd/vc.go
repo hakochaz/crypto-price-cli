@@ -17,9 +17,11 @@ var vcCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		cl := listAllSupportedVC()
 		fmt.Println("Supported versus currencies: ")
+		fmt.Println()
 		for _, c := range *cl {
 			fmt.Println(c)
 		}
+		fmt.Println()
 	},
 }
 
