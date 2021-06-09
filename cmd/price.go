@@ -14,20 +14,20 @@ var priceCmd = &cobra.Command{
 	Short: "Get current or historical price data",
 	Long:  `Get current or historical price data for any cryptocurrency pair`,
 	Run: func(cmd *cobra.Command, args []string) {
-		coin, _ := cmd.Flags().GetString("coin")
+		id, _ := cmd.Flags().GetString("id")
 		vc, _ := cmd.Flags().GetString("vc")
 		d, _ := cmd.Flags().GetString("date")
 
-		if coin == "" || vc == "" {
-			fmt.Println("vc and coin are required flags.")
+		if id == "" || vc == "" {
+			fmt.Println("vc and id are required flags for the price command")
 		} else if d != "" {
-			pd := getHistoricalPriceData(coin, vc, d)
+			pd := getHistoricalPriceData(id, vc, d)
 			fmt.Println("Coin: ", pd.coin)
 			fmt.Println("Currency: ", pd.vc)
 			fmt.Println("Price: ", pd.price)
 			fmt.Println("Date: ", pd.date)
 		} else {
-			pd := getCurrentPriceData(coin, vc)
+			pd := getCurrentPriceData(id, vc)
 			fmt.Println("Current Price Data")
 			fmt.Println("Coin: ", pd.coin)
 			fmt.Println("Currency: ", pd.vc)
@@ -38,6 +38,8 @@ var priceCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(priceCmd)
+	priceCmd.PersistentFlags().String("id", "", "The identifier of the coin you wish to get the price")
+	priceCmd.PersistentFlags().String("vc", "", "The currency to compare versus")
 	priceCmd.PersistentFlags().String("date", "", "The date and time you wish to get data for")
 }
 
@@ -69,18 +71,18 @@ func getCurrentPriceData(coin, vc string) PriceData {
 
 // getHistoricalPriceData gets historical price data for a coin
 // versus another currency
-func getHistoricalPriceData(coin, vc, d string) PriceData {
+func getHistoricalPriceData(id, vc, d string) PriceData {
 	pd := PriceData{}
 	cg := gecko.NewClient(nil)
 
-	sp, err := cg.CoinsIDHistory(coin, d, true)
+	sp, err := cg.CoinsIDHistory(id, d, true)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	c := (*sp)
-	pd.coin = coin
+	pd.coin = c.Name
 	pd.vc = vc
 	pd.price = c.MarketData.CurrentPrice[vc]
 	pd.date = d
