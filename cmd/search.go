@@ -1,10 +1,10 @@
 package cmd
 
 import (
-	"errors"
 	"fmt"
 	"log"
 
+	"github.com/hakochaz/crypto-price-cli/api"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +20,7 @@ var searchCmd = &cobra.Command{
 			log.Fatal("Name is a required flag")
 		}
 
-		c, err := searchCoinFromList(n)
+		c, err := api.SearchCoinFromList(n)
 
 		if err != nil {
 			log.Fatal("Unable to find supported coin")
@@ -28,9 +28,9 @@ var searchCmd = &cobra.Command{
 
 		fmt.Println("Supported Coin Found")
 		fmt.Println()
-		fmt.Println("Name:", c.name)
-		fmt.Println("ID:", c.id)
-		fmt.Println("Symbol:", c.symbol)
+		fmt.Println("Name:", c.Name)
+		fmt.Println("ID:", c.Id)
+		fmt.Println("Symbol:", c.Symbol)
 		fmt.Println()
 	},
 }
@@ -38,24 +38,4 @@ var searchCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(searchCmd)
 	searchCmd.PersistentFlags().String("name", "", "The name of the coin you would like to search for")
-}
-
-type Coin struct {
-	name   string
-	id     string
-	symbol string
-}
-
-func searchCoinFromList(name string) (Coin, error) {
-	cl := getCoinsList()
-	rc := Coin{}
-
-	for _, c := range *cl {
-		if c.Name == name || c.ID == name || c.Symbol == name {
-			rc = Coin{c.Name, c.ID, c.Symbol}
-			return rc, nil
-		}
-	}
-
-	return rc, errors.New("unable to find supported coin")
 }

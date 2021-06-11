@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/hakochaz/crypto-price-cli/api"
 	"github.com/spf13/cobra"
-	gecko "github.com/superoo7/go-gecko/v3"
-	"github.com/superoo7/go-gecko/v3/types"
 )
 
 // coinsCmd represents the coins command
@@ -15,7 +14,12 @@ var coinsCmd = &cobra.Command{
 	Short: "Get a list of all coins",
 	Long:  `Get a list of all compatible coins`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cl := getCoinsList()
+		cl, err := api.GetCoinsList()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		for _, c := range *cl {
 			fmt.Println("Name: ", c.Name)
 			fmt.Println("ID: ", c.ID)
@@ -27,16 +31,4 @@ var coinsCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(coinsCmd)
-}
-
-func getCoinsList() *types.CoinList {
-	cg := gecko.NewClient(nil)
-
-	cl, err := cg.CoinsList()
-
-	if err != nil {
-		log.Fatal("Error retrieving coins list")
-	}
-
-	return cl
 }
