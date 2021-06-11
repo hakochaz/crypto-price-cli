@@ -110,6 +110,7 @@ func printPriceData(pd PriceData) {
 		fmt.Println("Current Price Data")
 	}
 
+	fmt.Println()
 	fmt.Println("Coin: ", pd.coin)
 	fmt.Println("Currency: ", pd.vc)
 	fmt.Printf("Price: %.2f\n", pd.price)
@@ -118,4 +119,5 @@ func printPriceData(pd PriceData) {
 		fmt.Println("Amount: ", pd.amount)
 		fmt.Printf("Value: %.2f\n", pd.value)
 	}
+	fmt.Println()
 }
