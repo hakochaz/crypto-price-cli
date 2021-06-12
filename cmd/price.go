@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/hakochaz/crypto-price-cli/api"
 	"github.com/spf13/cobra"
@@ -19,13 +20,22 @@ var priceCmd = &cobra.Command{
 		a, _ := cmd.Flags().GetFloat64("amount")
 
 		pd := api.PriceData{}
+		var err error
 
 		if id == "" || vc == "" {
 			fmt.Println("vc and id are required flags for the price command")
 		} else if d != "" {
-			pd = api.GetHistoricalPriceData(id, vc, d)
+			pd, err = api.GetHistoricalPriceData(id, vc, d)
+
+			if err != nil {
+				log.Fatal(err)
+			}
 		} else {
-			pd = api.GetCurrentPriceData(id, vc)
+			pd, err = api.GetCurrentPriceData(id, vc)
+
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
 		if a > 0 {

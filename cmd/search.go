@@ -11,8 +11,8 @@ import (
 // searchCmd represents the search command
 var searchCmd = &cobra.Command{
 	Use:   "search",
-	Short: "Search for a coin by name",
-	Long:  `Search for a coin by name to get the id to use in price commands`,
+	Short: "Search for a supported coin by name",
+	Long:  `Search for a supported coin by name to get the id for use in price commands`,
 	Run: func(cmd *cobra.Command, args []string) {
 		n, _ := cmd.Flags().GetString("name")
 
@@ -20,10 +20,10 @@ var searchCmd = &cobra.Command{
 			log.Fatal("Name is a required flag")
 		}
 
-		c, err := api.SearchCoinFromList(n)
+		c, err := api.SearchSupportedCoin(n)
 
 		if err != nil {
-			log.Fatal("Unable to find supported coin")
+			log.Fatal(err)
 		}
 
 		fmt.Println("Supported Coin Found")

@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/hakochaz/crypto-price-cli/api"
 	"github.com/spf13/cobra"
@@ -13,7 +14,12 @@ var vcCmd = &cobra.Command{
 	Short: "Get a list of supported versus currencies",
 	Long:  `List all the supported versus currencies to use when getting prices.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		cl := api.ListAllSupportedVC()
+		cl, err := api.GetVersusCurrencysList()
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		fmt.Println("Supported versus currencies: ")
 		fmt.Println()
 		for _, c := range *cl {
