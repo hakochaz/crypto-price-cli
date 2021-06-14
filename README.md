@@ -21,7 +21,7 @@ crypto-price-cli price --id=bitcoin --vc=usd --date=05-19-2018 --amount=2.57
 
 ```vc``` - versus currency that the price will be denominated in.
 
-### Optional flag
+### Optional flags
 
 ```date``` - get historical price data for a specific date in the past.
 
