@@ -27,13 +27,6 @@ crypto-price-cli price --id=bitcoin --vc=usd --date=05-19-2018 --amount=2.57
 
 ```amount``` - calculate value of a specific amount of crypto.
 
-## Coins Command
-Get a list of all compatible coins.
-
-```
-crypto-price-cli coins
-```
-
 ## Search Command 
 Search for a supported coin by name to get the id for use in price commands.
 
@@ -46,4 +39,13 @@ List all the supported versus currencies.
 
 ```
 crypto-price-cli vc
+```
+
+## Coins Command
+Get a list of all compatible coins.
+
+There is no pagination, so it is recommended to use the search command to get the id of a coin.
+
+```
+crypto-price-cli coins
 ```
